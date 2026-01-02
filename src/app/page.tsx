@@ -2,18 +2,24 @@
 
 import AssistantModal from "@/components/assistants/assistant-modal"
 import { Button } from "@/components/ui/button"
-import { ASSISTANTS_MOCK } from "@/mocks/assistants.mock"
+import { createAssistant } from "@/services/assistants.service"
 import { Assistant } from "@/types/assistant"
 import { BrainCircuitIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react"
 import { useState } from "react"
 
 export default function Home() {
+  const [assistants, setAssistants] = useState<Assistant[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedAssistant, setSelectedAssistant] = useState<Assistant | undefined>()
 
   const openCreate = () => {
     setSelectedAssistant(undefined)
     setModalOpen(true)
+  }
+
+  const create = async (assistant: Assistant) => {
+    await createAssistant(assistant)
+    setAssistants(prev => [...prev, assistant])
   }
   
   return (
@@ -30,7 +36,7 @@ export default function Home() {
 
       <main className="container mx-auto py-4">
         <div className="grid grid-cols-4 gap-4">
-          {ASSISTANTS_MOCK.map((assistant) => (
+          {assistants.map((assistant) => (
             <div key={assistant.id} className="border p-4 rounded-md">
               <h2 className="font-medium">{assistant.name}</h2>
               <div className="flex gap-1">
@@ -65,6 +71,7 @@ export default function Home() {
         assistant={selectedAssistant}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        onCreate={create}
       />
     </>
   )

@@ -10,16 +10,24 @@ interface Props {
   assistant?: Assistant
   open: boolean
   onClose: () => void
+  onCreate: (assistant: Assistant) => Promise<void>
 }
 
-export default function AssistantModal({ assistant, open, onClose }: Props) {
+export default function AssistantModal({ assistant, open, onClose, onCreate }: Props) {
   
   const handleCloseDialog = () => {
     onClose()
   }
 
-  const handleOnSubmit = (formData: AssistantFormData) => {
-    console.log(formData);
+  const handleOnSubmit = async (formData: AssistantFormData) => {
+    const assistantData: Assistant = {
+      ...formData,
+      id: crypto.randomUUID(),
+      rules: '',
+    }
+    
+    await onCreate(assistantData)
+    handleCloseDialog()
   }
   
   return (

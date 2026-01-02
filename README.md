@@ -1,7 +1,7 @@
 # Lista de tareas
 
-- [x] Listar asistentes
-- [ ] Crear asistente
+- [ ] Listar asistentes
+- [x] Crear asistente
 - [ ] Actualizar asistente
 - [ ] Eliminar asistente
 - [ ] Detalles de un asistente
