@@ -11,9 +11,10 @@ interface Props {
   open: boolean
   onClose: () => void
   onCreate: (assistant: Assistant) => Promise<void>
+  onUpdate: (assistant: Assistant) => Promise<void>
 }
 
-export default function AssistantModal({ assistant, open, onClose, onCreate }: Props) {
+export default function AssistantModal({ assistant, open, onClose, onCreate, onUpdate }: Props) {
   
   const handleCloseDialog = () => {
     onClose()
@@ -22,11 +23,16 @@ export default function AssistantModal({ assistant, open, onClose, onCreate }: P
   const handleOnSubmit = async (formData: AssistantFormData) => {
     const assistantData: Assistant = {
       ...formData,
-      id: crypto.randomUUID(),
-      rules: '',
+      id: assistant?.id ?? crypto.randomUUID(),
+      rules: assistant?.rules ?? '',
     }
     
-    await onCreate(assistantData)
+    if (assistant) { 
+      await onUpdate(assistantData) 
+    } else { 
+      await onCreate(assistantData)
+    }
+
     handleCloseDialog()
   }
   
@@ -43,6 +49,7 @@ export default function AssistantModal({ assistant, open, onClose, onCreate }: P
         </DialogHeader>
 
         <AssistantForm
+          defaultValues={assistant}
           onSubmit={handleOnSubmit}
           onCancel={handleCloseDialog}
         />

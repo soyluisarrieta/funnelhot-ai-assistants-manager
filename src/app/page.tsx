@@ -21,6 +21,11 @@ export default function Home() {
     setModalOpen(true)
   }
 
+  const openEdit = (assistant: Assistant) => {
+    setSelectedAssistant(assistant);
+    setModalOpen(true);
+  }
+
   return (
     <>
       <header className="border-b py-4 flex justify-between items-center">
@@ -49,6 +54,7 @@ export default function Home() {
                 <Button 
                   variant='outline'
                   size='icon-sm'
+                  onClick={() => openEdit(assistant)}
                 >
                   <PencilIcon />
                 </Button>
@@ -71,6 +77,7 @@ export default function Home() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onCreate={actions.create}
+        onUpdate={actions.update}
       />
     </>
   )

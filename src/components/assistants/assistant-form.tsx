@@ -6,10 +6,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { LANGUAGES, TONES } from "@/constants/assistant-options"
 import { AssistantFormData, assistantSchema } from "@/schemas/assistant.schema"
+import { Assistant } from "@/types/assistant"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 
 interface Props {
+  defaultValues?: Assistant
   onSubmit: (assistant: AssistantFormData) => void
   onCancel: () => void
 }
@@ -20,7 +22,7 @@ const initialValues = {
   audioEnabled: false,
 }
 
-export default function AssistantForm({ onSubmit, onCancel }: Props) {
+export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Props) {
   
   const {
     control,
@@ -29,7 +31,7 @@ export default function AssistantForm({ onSubmit, onCancel }: Props) {
   } = useForm<AssistantFormData>({
     resolver: zodResolver(assistantSchema),
     mode: 'onChange',
-    defaultValues: initialValues,
+    defaultValues: defaultValues ?? initialValues,
   })
   
   return (

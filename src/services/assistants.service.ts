@@ -10,7 +10,14 @@ export const getAssistants = async (): Promise<Assistant[]> => {
 export const createAssistant = async (assistant: Assistant): Promise<void> => {
   await delay()
   const assistants = await getAssistants()
-  console.log([...assistants, assistant]);
-  
   saveToStorage(STORAGE_KEYS.ASSISTANTS, [...assistants, assistant])
+}
+
+export const updateAssistant = async (assistant: Assistant): Promise<void> => {
+  await delay()
+  const assistants = await getAssistants()
+  const updated = assistants.map(a =>
+    a.id === assistant.id ? assistant : a
+  )
+  saveToStorage(STORAGE_KEYS.ASSISTANTS, updated)
 }
