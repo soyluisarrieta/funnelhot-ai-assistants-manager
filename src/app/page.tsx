@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import AssistantModal from "@/components/assistants/assistant-modal"
 import { Button } from "@/components/ui/button"
 import { Assistant } from "@/types/assistant"
@@ -15,6 +15,10 @@ export default function Home() {
     assistants,
     actions
   } = useAssistants()
+
+  const reversedAssistants = useMemo(() => {
+    return [...assistants].reverse()
+  }, [assistants])
 
   const openCreate = () => {
     setSelectedAssistant(undefined)
@@ -40,7 +44,7 @@ export default function Home() {
 
       <main className="container mx-auto py-4">
         <div className="grid grid-cols-4 gap-4">
-          {assistants.map((assistant) => (
+          {reversedAssistants.map((assistant) => (
             <div key={assistant.id} className="border p-4 rounded-md">
               <h2 className="font-medium">{assistant.name}</h2>
               <div className="flex gap-1">
