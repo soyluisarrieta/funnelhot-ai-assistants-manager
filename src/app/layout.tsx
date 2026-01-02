@@ -23,11 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html 
+      lang="es"
+      className="dark"
+      style={{ colorScheme: "dark" }}
+    >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh bg-background text-foreground`}
       >
-        {children}
+        <div className="container mx-auto">
+          {children}
+        </div>
       </body>
     </html>
   );
