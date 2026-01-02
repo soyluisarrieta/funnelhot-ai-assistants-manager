@@ -3,6 +3,7 @@
 import AssistantForm from "@/components/assistants/assistant-form"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
+import { AssistantFormData } from "@/schemas/assistant.schema"
 import { Assistant } from "@/types/assistant"
 
 interface Props {
@@ -17,7 +18,7 @@ export default function AssistantModal({ assistant, open, onClose }: Props) {
     onClose()
   }
 
-  const handleOnSubmit = (formData: Record<string, string | boolean>) => {
+  const handleOnSubmit = (formData: AssistantFormData) => {
     console.log(formData);
   }
   
