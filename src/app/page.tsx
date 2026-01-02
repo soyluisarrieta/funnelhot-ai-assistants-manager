@@ -1,15 +1,28 @@
-import { Button } from "@/components/ui/button";
-import { ASSISTANTS_MOCK } from "@/mocks/assistants.mock";
-import { BrainCircuitIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+'use client'
+
+import AssistantModal from "@/components/assistants/assistant-modal"
+import { Button } from "@/components/ui/button"
+import { ASSISTANTS_MOCK } from "@/mocks/assistants.mock"
+import { Assistant } from "@/types/assistant"
+import { BrainCircuitIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react"
+import { useState } from "react"
 
 export default function Home() {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedAssistant, setSelectedAssistant] = useState<Assistant | undefined>()
+
+  const openCreate = () => {
+    setSelectedAssistant(undefined)
+    setModalOpen(true)
+  }
+  
   return (
     <>
       <header className="border-b py-4 flex justify-between items-center">
         <h1 className="text-xl font-bold">
           Asistentes IA de Funnelhot
         </h1>
-        <Button size="sm">
+        <Button size="sm" onClick={openCreate}>
           <PlusIcon />
           Nuevo asistente
         </Button>
@@ -47,6 +60,12 @@ export default function Home() {
           ))}
         </div>
       </main>
+
+      <AssistantModal
+        assistant={selectedAssistant}
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </>
   )
 }
