@@ -1,4 +1,4 @@
-export const delay = (ms = 200) =>
+export const delay = (ms = 0) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 export const getFromStorage = <T>(key: string): T | null => {

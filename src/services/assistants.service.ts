@@ -7,6 +7,12 @@ export const getAssistants = async (): Promise<Assistant[]> => {
   return getFromStorage<Assistant[]>(STORAGE_KEYS.ASSISTANTS) ?? []
 }
 
+export const getAssistantById = async (id: string): Promise<Assistant | null> => {
+  await delay()
+  const assistants = await getAssistants()
+  return assistants.find(a => a.id === id) ?? null
+}
+
 export const createAssistant = async (assistant: Assistant): Promise<void> => {
   await delay()
   const assistants = await getAssistants()

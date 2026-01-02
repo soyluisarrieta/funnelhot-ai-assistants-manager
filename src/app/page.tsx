@@ -7,12 +7,15 @@ import { Assistant } from "@/types/assistant"
 import { BrainCircuitIcon, LoaderIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react"
 import { useAssistants } from "@/hook/useAssistants"
 import { Dialog, DialogFooter, DialogContent, DialogClose, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedAssistant, setSelectedAssistant] = useState<Assistant | undefined>()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  
+  const router = useRouter();
 
   const {
     assistants,
@@ -74,6 +77,7 @@ export default function Home() {
                 <Button
                   variant='outline'
                   size='sm'
+                  onClick={() => router.push(`/asistentes/${assistant.id}`)}
                 >
                   <BrainCircuitIcon /> Entrenar
                 </Button>
