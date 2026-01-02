@@ -1,16 +1,24 @@
 'use client'
 
+import { useEffect, useState } from "react"
 import AssistantModal from "@/components/assistants/assistant-modal"
 import { Button } from "@/components/ui/button"
-import { createAssistant } from "@/services/assistants.service"
+import { createAssistant, getAssistants } from "@/services/assistants.service"
 import { Assistant } from "@/types/assistant"
 import { BrainCircuitIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react"
-import { useState } from "react"
 
 export default function Home() {
   const [assistants, setAssistants] = useState<Assistant[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedAssistant, setSelectedAssistant] = useState<Assistant | undefined>()
+
+  useEffect(() => {
+    const loadAssistants = async () => {
+      const data = await getAssistants()
+      setAssistants(data)
+    }
+    loadAssistants()
+  }, [])
 
   const openCreate = () => {
     setSelectedAssistant(undefined)
