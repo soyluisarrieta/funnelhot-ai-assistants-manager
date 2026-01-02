@@ -21,3 +21,12 @@ export const updateAssistant = async (assistant: Assistant): Promise<void> => {
   )
   saveToStorage(STORAGE_KEYS.ASSISTANTS, updated)
 }
+
+export const deleteAssistant = async (id: string): Promise<void> => {
+  await delay()
+  const assistants = await getAssistants()
+  saveToStorage(
+    STORAGE_KEYS.ASSISTANTS,
+    assistants.filter(a => a.id !== id)
+  )
+}

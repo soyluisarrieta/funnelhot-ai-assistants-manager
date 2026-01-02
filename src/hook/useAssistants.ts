@@ -6,12 +6,14 @@ import {
   getAssistants,
   createAssistant,
   updateAssistant,
+  deleteAssistant,
 } from '@/services/assistants.service'
 
 
 interface AssistantsActions {
-  create: (assistant: Assistant) => Promise<void>;
-  update: (assistant: Assistant) => Promise<void>;
+  create: (assistant: Assistant) => Promise<void>
+  update: (assistant: Assistant) => Promise<void>
+  remove: (id: string) => Promise<void>
 }
 
 interface UseAssistants {
@@ -40,11 +42,17 @@ export function useAssistants(): UseAssistants {
     setAssistants(prev => prev.map(a => a.id === assistant.id ? assistant : a))
   }
 
+  const remove = async (id: string) => {
+    await deleteAssistant(id)
+    setAssistants(prev => prev.filter(a => a.id !== id))
+  }
+
   return {
     assistants,
     actions: {
       create,
-      update
+      update,
+      remove
     }
   }
 }
