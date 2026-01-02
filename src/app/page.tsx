@@ -1,35 +1,26 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import AssistantModal from "@/components/assistants/assistant-modal"
 import { Button } from "@/components/ui/button"
-import { createAssistant, getAssistants } from "@/services/assistants.service"
 import { Assistant } from "@/types/assistant"
 import { BrainCircuitIcon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react"
+import { useAssistants } from "@/hook/useAssistants"
 
 export default function Home() {
-  const [assistants, setAssistants] = useState<Assistant[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedAssistant, setSelectedAssistant] = useState<Assistant | undefined>()
 
-  useEffect(() => {
-    const loadAssistants = async () => {
-      const data = await getAssistants()
-      setAssistants(data)
-    }
-    loadAssistants()
-  }, [])
+  const {
+    assistants,
+    actions
+  } = useAssistants()
 
   const openCreate = () => {
     setSelectedAssistant(undefined)
     setModalOpen(true)
   }
 
-  const create = async (assistant: Assistant) => {
-    await createAssistant(assistant)
-    setAssistants(prev => [...prev, assistant])
-  }
-  
   return (
     <>
       <header className="border-b py-4 flex justify-between items-center">
@@ -79,7 +70,7 @@ export default function Home() {
         assistant={selectedAssistant}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onCreate={create}
+        onCreate={actions.create}
       />
     </>
   )
