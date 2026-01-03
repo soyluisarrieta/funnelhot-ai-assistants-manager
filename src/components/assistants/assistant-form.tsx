@@ -10,7 +10,8 @@ import { AssistantFormData, assistantSchema } from "@/schemas/assistant.schema"
 import { Assistant } from "@/types/assistant"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeftIcon, ArrowRight, CheckIcon, LoaderIcon } from "lucide-react"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
+import { cn } from "@/lib/utils"
 
 interface Props {
   defaultValues?: Assistant
@@ -30,14 +31,17 @@ const RESPONSE_LENGTH_PRESETS = {
   short: {
     title: 'Corta',
     description: 'Breves (1–2 frases)',
+    colorClass: 'bg-blue-500',
   },
   medium: {
     title: 'Media',
     description: 'Equilibradas (3–5 frases)',
+    colorClass: 'bg-green-500',
   },
   long: {
     title: 'Larga',
     description: 'Detalladas y explicativas',
+    colorClass: 'bg-purple-500',
   },
 }
 
@@ -56,6 +60,16 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
     defaultValues: defaultValues ?? initialValues,
   })
 
+  const responseLength = useWatch({
+    control,
+    name: 'responseLength',
+  });
+  
+  const total =
+    (responseLength?.short ?? 0) +
+    (responseLength?.medium ?? 0) +
+    (responseLength?.long ?? 0);
+
   const nextStep = async () => {
     setCanShowErrors(true)
 
@@ -68,7 +82,6 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-
       {step === 1 && (
         <section className="space-y-4">
           <div>
@@ -93,7 +106,7 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
                     <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
-
+            
                     <SelectContent>
                       {LANGUAGES.map(lang => (
                         <SelectItem key={lang} value={lang}>
@@ -130,7 +143,7 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
                   </Select>
                 )}
               />
-
+              
               {errors.tone && (
                 <p className="error text-sm text-muted-foreground">{errors.tone.message}</p>
               )}
@@ -152,6 +165,12 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
                   <div key={key} className="space-y-2 flex items-center justify-between">
                     <div>
                       <label className="font-medium">
+                        <span 
+                          className={cn(
+                            'size-1.5 inline-block rounded-full mb-0.5 mr-1.5',
+                            RESPONSE_LENGTH_PRESETS[key].colorClass
+                          )}
+                        />
                         {RESPONSE_LENGTH_PRESETS[key].title}
                       </label>
                       <p className="text-xs text-muted-foreground">
@@ -175,6 +194,21 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+            
+            <div className='space-y-1'>
+              <div className="flex h-2 rounded overflow-hidden bg-muted">
+                <div style={{ width: `${(responseLength?.short ?? 0)}%` }} className={RESPONSE_LENGTH_PRESETS.short.colorClass} />
+                <div style={{ width: `${(responseLength?.medium ?? 0)}%` }} className={RESPONSE_LENGTH_PRESETS.medium.colorClass} />
+                <div style={{ width: `${(responseLength?.long ?? 0)}%` }} className={RESPONSE_LENGTH_PRESETS.long.colorClass} />
+              </div>
+              
+              <div className='flex justify-between text-muted-foreground text-xs'>
+                <span>Ajusta cómo se distribuyen las respuestas según su longitud.</span>
+                <span className={cn('', total !== 100 && 'text-red-500')}>
+                  Total: {total}%
+                </span>
               </div>
             </div>
           </div>
