@@ -65,3 +65,30 @@ src/
 - **Feedback visual**: Indicador de porcentajes con barra de progreso, mensajes de éxito/error claros
 - **Chat UX**: Scroll automático, indicador de "escribiendo", delay variable para simular latencia real
 - **Validaciones progresivas**: Errores se muestran después de intentar avanzar/guardar para mejor UX
+
+## Priorización y funcionalidades no implementadas
+
+Se priorizó implementar todas las funcionalidades requeridas en la prueba técnica. Las siguientes mejoras quedaron fuera por no ser requisitos obligatorios:
+
+- **Búsqueda y filtrado de asistentes**: El listado muestra todos los asistentes sin opciones de búsqueda o filtrado. *Por qué*: Se priorizó la funcionalidad core del CRUD. Con pocos asistentes, la búsqueda no es crítica y añadiría complejidad sin valor inmediato.
+
+- **Ordenamiento**: No hay opción para ordenar asistentes por diferentes criterios. El listado muestra los más recientes primero.
+
+- **Tests unitarios**: No se incluyeron tests. *Por qué*: Se priorizó la funcionalidad y arquitectura preparada para testing futuro. Los tests añadirían tiempo significativo sin ser requisito explícito.
+
+- **Manejo de errores más robusto**: Hay manejo básico de errores (try/catch en eliminación), pero no hay un sistema global de notificaciones de error visible para el usuario. *Por qué*: Los errores se manejan de forma localizada donde ocurren (validaciones en formularios, confirmaciones en eliminación). Para el alcance de la prueba, este enfoque proporciona feedback suficiente al usuario sin añadir la complejidad de un sistema global de notificaciones.
+
+## Tiempo aproximado de dedicación
+
+**Tiempo total: 7-8 horas**
+
+El tiempo de desarrollo se puede verificar en el historial de commits de GitHub. El proyecto se desarrolló de forma incremental, con commits que reflejan cada funcionalidad implementada:
+
+- Setup inicial y estructura del proyecto
+- Componentes UI base (shadcn/ui)
+- Formulario de 2 pasos con validaciones
+- CRUD completo de asistentes
+- Página de entrenamiento y chat simulado
+- Persistencia y ajustes finales de UX
+
+Cada commit documenta el progreso y las decisiones tomadas durante el desarrollo.
