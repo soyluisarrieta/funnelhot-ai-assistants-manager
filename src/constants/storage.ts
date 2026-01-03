@@ -1,3 +1,4 @@
 export const STORAGE_KEYS = {
-  ASSISTANTS: 'assistants',
+  ASSISTANTS: 'assistants-ai',
+  CHATS: 'chat-messages'
 }
