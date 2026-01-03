@@ -7,6 +7,12 @@ import { Input } from "@/components/ui/input"
 import { SendIcon, BotIcon, UserIcon, Trash2Icon } from "lucide-react"
 import { CHAT_RESPONSES_MOCK } from "@/mocks/chat-responses.mock"
 import { cn } from "@/lib/utils"
+import { STORAGE_KEYS } from "@/constants/storage"
+import { getFromStorage, saveToStorage } from "@/lib/storage"
+
+interface Props {
+  assistantId: string
+}
 
 interface Message {
   id: string
@@ -25,8 +31,13 @@ const INITIAL_MESSAGE: Message = {
   sender: "bot",
 }
 
-export default function AssistantChat() {
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE])
+export default function AssistantChat({ assistantId }: Props) {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === 'undefined') return [INITIAL_MESSAGE]
+    const chats = getFromStorage<Record<string, Message[]>>(STORAGE_KEYS.CHATS)
+    return chats?.[assistantId] ?? [INITIAL_MESSAGE]
+  })
+  
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -34,6 +45,13 @@ export default function AssistantChat() {
   const reversedMessages = useMemo(() => {
     return [...messages].reverse()
   }, [messages])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const chats = getFromStorage<Record<string, Message[]>>(STORAGE_KEYS.CHATS) ?? {}
+    chats[assistantId] = messages
+    saveToStorage(STORAGE_KEYS.CHATS, chats)
+  }, [messages, assistantId])
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -67,6 +85,16 @@ export default function AssistantChat() {
     }, delay)
   }
 
+  const handleClearChat = () => {
+    setMessages([INITIAL_MESSAGE])
+    if (typeof window === 'undefined') return
+    const chats = getFromStorage<Record<string, Message[]>>(STORAGE_KEYS.CHATS) ?? {}
+    if (chats) {
+      delete chats[assistantId]
+      saveToStorage(STORAGE_KEYS.CHATS, chats)
+    }
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isTyping) {
       handleSendMessage()
@@ -85,6 +113,7 @@ export default function AssistantChat() {
         <Button
           variant="ghost"
           size="icon"
+          onClick={handleClearChat}
           className="text-primary-foreground hover:bg-primary-foreground/20"
         >
           <Trash2Icon className="size-5" />

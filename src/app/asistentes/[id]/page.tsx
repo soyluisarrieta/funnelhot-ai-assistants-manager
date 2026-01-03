@@ -30,6 +30,8 @@ export default function TrainingPage() {
     actions.update({ ...assistant, rules: rules || '' })
   }
 
+  if (!assistant) return <p>Asistente no encontrado</p>
+
   return (
     <div className="flex flex-col h-dvh">
       <header className="text-xl mb-4">
@@ -52,7 +54,7 @@ export default function TrainingPage() {
 
         {/* Chat */}
         <div className="w-full md:max-w-md lg:max-w-lg h-dvh min-h-96 md:h-full flex flex-col p-1 pb-0 md:pr-0">
-           <AssistantChat /> 
+           <AssistantChat assistantId={assistant.id} /> 
         </div>
       </div>
     </div>
