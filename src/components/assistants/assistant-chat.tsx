@@ -105,7 +105,7 @@ export default function AssistantChat({ assistantId }: Props) {
     <div className="w-full h-full flex flex-col shadow-2xl">
       <div className="flex items-center justify-between py-2 px-3 border-b bg-foreground text-primary-foreground rounded-t-lg">
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+          <div className="size-10 rounded-full bg-primary flex items-center justify-center">
             <BotIcon className="size-6" />
           </div>
           <h1 className="font-semibold text-lg">Prueba el asistente</h1>
@@ -143,8 +143,8 @@ export default function AssistantChat({ assistantId }: Props) {
               className={cn(
                 "size-8 rounded-full flex items-center justify-center shrink-0",
                 message.sender === "user"
-                  ? "bg-primary-app text-accent-foreground"
-                  : "bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-primary-app/50 text-primary"
               )}
             >
               {message.sender === "user" ? <UserIcon className="w-5 h-5" /> : <BotIcon className="w-5 h-5" />}
