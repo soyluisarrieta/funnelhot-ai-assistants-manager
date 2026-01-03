@@ -8,8 +8,8 @@
 - [x] Validación de formulario de asistentes
 - [x] Formulario en dos pasos
 - [x] Almacenar texto de entrenamiento
-- [ ] Simulador de chat
-- [ ] Reiniciar conversación
-- [ ] Modularizar y refactorizar
-- [ ] Mejorar UI/UX responsive design
+- [x] Simulador de chat
+- [x] Reiniciar conversación
+- [x] Modularizar y refactorizar
+- [x] Mejorar UI/UX responsive design
 - [ ] README final
