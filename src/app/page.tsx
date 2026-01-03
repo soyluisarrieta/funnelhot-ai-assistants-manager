@@ -65,7 +65,10 @@ export default function Home() {
             Asistentes IA de Funnelhot
           </h1>
         </div>
-        <Button size="sm" onClick={openCreate} className="bg-primary hover:bg-primary/90">
+        <Button
+          onClick={openCreate}
+          className="bg-primary-app hover:bg-primary-app/70 text-primary"
+        >
           <PlusIcon className="size-4" />
           Nuevo asistente
         </Button>

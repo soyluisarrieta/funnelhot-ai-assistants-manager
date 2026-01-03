@@ -67,7 +67,7 @@ export default function AssistantModal({ assistant, open, onClose, onCreate, onU
               className={cn(
                 "flex size-9 aspect-square items-center justify-center rounded-full border-2 font-semibold transition-colors",
                 step === 1
-                  ? "border-primary bg-primary text-primary-foreground"
+                  ? "border-primary-app bg-primary-app text-primary"
                   : "border-muted bg-muted text-muted-foreground",
               )}
             >
@@ -92,7 +92,7 @@ export default function AssistantModal({ assistant, open, onClose, onCreate, onU
               className={cn(
                 "flex size-9 aspect-square items-center justify-center rounded-full border-2 font-semibold transition-colors",
                 step === 2
-                  ? "border-primary bg-primary text-primary-foreground"
+                  ? "border-primary-app bg-primary-app text-primary"
                   : "border-muted bg-muted text-muted-foreground",
               )}
             >

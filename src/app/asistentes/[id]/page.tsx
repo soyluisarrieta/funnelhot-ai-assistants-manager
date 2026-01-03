@@ -44,16 +44,13 @@ export default function TrainingPage() {
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
-              size="icon-sm"
+              size="icon"
               onClick={() => router.push('/')}
               className="hover:bg-primary/10 hover:text-primary"
             >
               <ArrowLeftIcon className="size-4" />
             </Button>
-            <div className="flex items-center gap-2">
-              <BrainCircuitIcon className="size-5 text-primary" />
-              <h1 className="text-2xl font-bold text-card-foreground">{assistant.name}</h1>
-            </div>
+            <h1 className="text-2xl font-bold">{assistant.name}</h1>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">

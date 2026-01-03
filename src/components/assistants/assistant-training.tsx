@@ -31,7 +31,7 @@ export default function AssistantTraining({ assistant }: Props) {
           <h2 className="text-lg font-semibold text-card-foreground">Entrenamiento</h2>
         </div>
         <p className="text-sm text-muted-foreground">
-          Ingresa prompts e instrucciones para entrenar al asistente
+          Ingresa reglas e instrucciones para entrenar al asistente
         </p>
       </div>
 

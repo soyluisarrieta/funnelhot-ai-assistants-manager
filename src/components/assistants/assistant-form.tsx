@@ -261,7 +261,11 @@ export default function AssistantForm({ defaultValues, step, onStepValue, onSubm
               <ArrowLeftIcon />
               Atrás
             </Button>
-            <Button type="submit" disabled={!isValid || isSubmitting}>
+            <Button 
+              className="bg-primary-app hover:bg-primary-app/70 text-primary"
+              type="submit"
+              disabled={!isValid || isSubmitting}
+            >
               {isSubmitting ? <LoaderIcon className='animate-spin' /> : <CheckIcon />}
               Guardar
             </Button>
