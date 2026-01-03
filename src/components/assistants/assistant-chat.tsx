@@ -28,6 +28,7 @@ const INITIAL_MESSAGE: Message = {
 export default function AssistantChat() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE])
   const [inputValue, setInputValue] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
   const reversedMessages = useMemo(() => {
@@ -38,10 +39,10 @@ export default function AssistantChat() {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTo({ top: 0, behavior: "smooth" })
     }
-  }, [messages])
+  }, [messages, isTyping])
 
   const handleSendMessage = () => {
-    if (!inputValue.trim()) return
+    if (!inputValue.trim() || isTyping) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -51,6 +52,7 @@ export default function AssistantChat() {
 
     setMessages((prev) => [...prev, userMessage])
     setInputValue("")
+    setIsTyping(true)
 
     const delay = Math.floor(Math.random() * 1000) + 1000
 
@@ -61,11 +63,12 @@ export default function AssistantChat() {
         sender: "bot",
       }
       setMessages((prev) => [...prev, botResponse])
+      setIsTyping(false)
     }, delay)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isTyping) {
       handleSendMessage()
     }
   }
@@ -89,6 +92,19 @@ export default function AssistantChat() {
       </div>
 
       <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 flex flex-col-reverse gap-4 bg-secondary/20">
+        {isTyping && (
+          <div className="flex gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+              <BotIcon className="size-5" />
+            </div>
+            <div className="bg-card text-card-foreground border rounded-2xl px-4 flex gap-1 items-center">
+              <span className="size-1.5 rounded-full bg-muted-foreground animate-bounce [animation-delay:-0.3s]" />
+              <span className="size-1.5 rounded-full bg-muted-foreground animate-bounce [animation-delay:-0.15s]" />
+              <span className="size-1.5 rounded-full bg-muted-foreground animate-bounce" />
+            </div>
+          </div>
+        )}
+
         {reversedMessages.map((message) => (
           <div
             key={message.id}
@@ -132,7 +148,7 @@ export default function AssistantChat() {
             className="shrink-0"
             size="icon"
             onClick={handleSendMessage}
-            disabled={!inputValue.trim()}
+            disabled={!inputValue.trim() || isTyping}
           >
             <SendIcon className="size-5" />
           </Button>
