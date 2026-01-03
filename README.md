@@ -5,7 +5,7 @@
 - [x] Actualizar asistente
 - [x] Eliminar asistente
 - [x] Detalles de un asistente
-- [ ] Validación de formulario de asistentes
+- [x] Validación de formulario de asistentes
 - [ ] Almacenar texto de entrenamiento
 - [ ] Simulador de chat
 - [ ] Reiniciar conversación

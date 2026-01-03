@@ -23,11 +23,12 @@ const initialValues = {
 }
 
 export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Props) {
-  
+
   const {
     control,
     register,
     handleSubmit,
+    formState: { errors, isValid, isSubmitting }
   } = useForm<AssistantFormData>({
     resolver: zodResolver(assistantSchema),
     mode: 'onChange',
@@ -39,6 +40,9 @@ export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Pro
       <div>
         <label>Nombre</label>
         <Input {...register('name')} />
+        {errors.name && (
+          <p className="error text-sm text-muted-foreground">{errors.name.message}</p>
+        )}
       </div>
 
       <div className='grid grid-cols-2 gap-2'>
@@ -66,6 +70,10 @@ export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Pro
                 </Select>
               )}
             />
+            
+            {errors.language && (
+              <p className="error text-sm text-muted-foreground">{errors.language.message}</p>
+            )}
         </div>
 
         <div>
@@ -92,21 +100,40 @@ export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Pro
                 </Select>
               )}
             />
+            
+            {errors.tone && (
+              <p className="error text-sm text-muted-foreground">{errors.tone.message}</p>
+            )}
         </div>
       </div>
 
       <div className='grid grid-cols-3 gap-2'>
         <div>
           <label>Corto</label>
-          <Input {...register('responseLength.short')} />
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            {...register('responseLength.short', {valueAsNumber: true})}
+          />
         </div>
         <div>
           <label>Mediano</label>
-          <Input {...register('responseLength.medium')} />
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            {...register('responseLength.medium', {valueAsNumber: true})}
+          />
         </div>
         <div>
           <label>Largo</label>
-          <Input {...register('responseLength.long')} />
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            {...register('responseLength.long', {valueAsNumber: true})}
+          />
         </div>
       </div>
 
@@ -129,12 +156,14 @@ export default function AssistantForm({ defaultValues, onSubmit, onCancel }: Pro
           type='button'
           variant='secondary'
           onClick={onCancel}
+          disabled={isSubmitting}
         >
           Cancelar
         </Button>
 
         <Button
           type="submit"
+          disabled={!isValid || isSubmitting}
         >
           Guardar
         </Button>
