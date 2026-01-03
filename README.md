@@ -6,6 +6,7 @@
 - [x] Eliminar asistente
 - [x] Detalles de un asistente
 - [x] Validación de formulario de asistentes
+- [x] Formulario en dos pasos
 - [ ] Almacenar texto de entrenamiento
 - [ ] Simulador de chat
 - [ ] Reiniciar conversación
